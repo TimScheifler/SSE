@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Tims SSE Projekt</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+    </style>
+    <script>
+        $(document).ready(function (){
+            var urlEndPoint ='http://localhost:8081/subscribe';
+            var eventSoruce = new EventSource(urlEndPoint);
+
+            eventSoruce.addEventListener("latestNews", function (event){
+                console.log(event.data)
+                    var articleData = JSON.parse(event.data);
+                    addBlock(articleData.title, articleData.text)
+                })
+        })
+
+        function addBlock(title, text){
+            var a = document.createElement("article")
+            //Title
+            var h = document.createElement("H3")
+            var t = document.createTextNode(title)
+            h.appendChild(t)
+
+            var para = document.createElement("P")
+            para.innerHTML = text;
+            a.appendChild(h)
+            a.appendChild(para)
+            document.getElementById("pack").appendChild(a)
+        }
+
+    </script>
+</head>
+<nav class ="navbar navbar-default">
+    <div class="container-fluid">
+        <div class = "navbar-header">
+            <div class=" navbar-brand">Latest News!</div>
+        </div>
+    </div>
+</nav>
+<div class = "container pstyle text-center" id = "pack">
+    <div class = "panel panel-primary">
+        News TimeLine
+    </div>
+</div>
+</body>
+</html>
